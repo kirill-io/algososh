@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  row-gap: 120px;
+  row-gap: 48px;
 }
 
 .form_container {
@@ -12,16 +12,21 @@
 .form {
   column-gap: 12px;
   display: flex;
-  max-width: 522px;
+  max-width: 567px;
   width: 100%;
 }
 
 .button {
-  min-width: 133px;
+  max-width: 178px;
+  width: 100%;
 }
 
 .circles_container {
+  align-self: center;
   column-gap: 16px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  max-width: 944px;
+  row-gap: 48px;
 }

@@ -6,11 +6,11 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { TReversingStringResult } from "../../types/string-state";
-import { DELAY_MS } from "../../utils/constants";
+import { DELAY_MS_1000 } from "../../utils/constants";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
-  const [steps, setSteps] = useState<TReversingStringResult  | null>(null);
+  const [steps, setSteps] = useState<TReversingStringResult | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [buttonLoader, setButtonLoader] = useState(false);
 
@@ -71,14 +71,14 @@ export const StringComponent: React.FC = () => {
           setCurrentStep((prevState) => {
             const nextState = prevState + 1;
             
-            if (nextState === steps.steps!.length - 1 && intervalRef.current) {
+            if (nextState === steps.steps.length - 1 && intervalRef.current) {
               setButtonLoader(false);
               clearInterval(intervalRef.current);
             }
   
             return nextState;
           });
-        }, DELAY_MS);
+        }, DELAY_MS_1000);
       }
     }
   };
@@ -98,7 +98,7 @@ export const StringComponent: React.FC = () => {
         <div className={styles.form_container}>
           <form className={styles.form} onSubmit={onSubmitFormHandler}>
             <Input maxLength={11} isLimitText={true} onChange={onChangeInputHandler} />
-            <Button text="Развернуть" type="submit" isLoader={buttonLoader} />
+            <Button text="Развернуть" type="submit" isLoader={buttonLoader} extraClass={styles.button} />
           </form>
         </div>
         <div className={styles.circles_container}>
