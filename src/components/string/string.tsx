@@ -67,7 +67,6 @@ export const StringComponent: React.FC = () => {
 
       if (steps.steps.length > 1) {
         intervalRef.current = setInterval(() => {
-
           setCurrentStep((prevState) => {
             const nextState = prevState + 1;
             
