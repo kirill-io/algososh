@@ -1,10 +1,11 @@
-import React from "react";
+import { RefObject } from "react";
 import styles from "./input.module.css";
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
   placeholder?: string;
   extraClass?: string;
   isLimitText?: boolean;
+  useRef?: RefObject<HTMLInputElement>;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -14,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
   maxLength,
   max,
   isLimitText = false,
+  useRef,
   ...rest
 }) => {
   const limitText =
@@ -29,6 +31,7 @@ export const Input: React.FC<InputProps> = ({
         type={type}
         maxLength={maxLength}
         max={max}
+        ref={useRef}
         {...rest}
       />
       {isLimitText && (

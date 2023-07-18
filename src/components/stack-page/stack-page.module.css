@@ -1,0 +1,37 @@
+.wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 48px;
+}
+
+.form {
+  column-gap: 80px;
+  display: flex;
+}
+
+.container {
+  column-gap: 12px;
+  display: flex;
+}
+
+.input {
+  width: 377px;
+}
+
+.add_button {
+  min-width: 121px;
+}
+
+.delete_button {
+  min-width: 108px;
+}
+
+.clear_button {
+  min-width: 119px;
+}
+
+.result {
+  column-gap: 16px;
+  display: flex;
+}
