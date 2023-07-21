@@ -1,4 +1,4 @@
-export class Stack<T extends string> {
+export class Stack<T> {
   private _storage: Array<T> = [];
   private _size = 0;
 

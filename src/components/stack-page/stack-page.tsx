@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { Stack } from "./stack";
 import styles from "./stack-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -16,19 +16,11 @@ export const StackPage: React.FC = () => {
   const [addButtonDisabled, setAddButtonDisabled] = useState(true);
   const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
   const [clearButtonDisabled, setClearButtonDisabled] = useState(true);
+  const [addButtonLoader, setAddButtonLoader] = useState(false);
+  const [deleteButtonLoader, setDeleteButtonLoader] = useState(false);
 
-  const stack = useRef(new Stack());
+  const stack = useRef(new Stack<string>());
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (stackValue) {
-      setDeleteButtonDisabled(false);
-      setClearButtonDisabled(false);
-    } else {
-      setDeleteButtonDisabled(true);
-      setClearButtonDisabled(true);
-    }
-  }, [stackValue]);
 
   const push = () => {
     if (inputValue && inputRef.current) {
@@ -37,32 +29,51 @@ export const StackPage: React.FC = () => {
       setAddButtonDisabled(true);
       setStackValue(stack.current.getStack);
       setTopElementIndex(stack.current.getSize - 1);
-      setStateElementIndex(stack.current.getSize - 1)
+      setStateElementIndex(stack.current.getSize - 1);
+      setAddButtonLoader(true);
+      setDeleteButtonDisabled(true);
+      setClearButtonDisabled(true);
       setTimeout(() => {
         setStateElementIndex(stack.current.getSize);
+        setAddButtonLoader(false);
+        setDeleteButtonDisabled(false);
+        setClearButtonDisabled(false);
       }, DELAY_MS_500);
     }
   };
 
   const pop = () => {
     setStateElementIndex(stack.current.getSize - 1);
+    setDeleteButtonLoader(true);
+    setClearButtonDisabled(true);
+
+    if (stack.current.getSize - 1 === 0) {
+      setDeleteButtonDisabled(true);
+    }
 
     setTimeout(() => {
       stack.current.pop();
       !stack.current.getStack.length ? setStackValue(null) : setStackValue([...stack.current.getStack]);
       setTopElementIndex(stack.current.getSize - 1);
+      setDeleteButtonLoader(false);
+
+      if (stack.current.getSize !== 0) {
+        setClearButtonDisabled(false);
+      }
     }, DELAY_MS_500);
   };
 
   const clear = () => {
     stack.current.clear();
     setStackValue(null);
+    setDeleteButtonDisabled(true);
+    setClearButtonDisabled(true);
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
 
-    if (e.currentTarget.value) {
+    if (e.currentTarget.value && e.currentTarget.value.trim() !== '') {
       setAddButtonDisabled(false);
     }
   };
@@ -73,10 +84,10 @@ export const StackPage: React.FC = () => {
         <form className={styles.form}>
           <div className={styles.container}>
             <Input maxLength={4} isLimitText={true} extraClass={styles.input} onChange={onChangeInputHandler} useRef={inputRef} />
-            <Button text="Добавить" extraClass={styles.add_button} onClick={push} disabled={addButtonDisabled ? true : false} />
-            <Button text="Удалить" extraClass={styles.delete_button} onClick={pop} disabled={deleteButtonDisabled ? true : false} />
+            <Button text="Добавить" extraClass={styles.add_button} onClick={push} disabled={addButtonDisabled} isLoader={addButtonLoader} />
+            <Button text="Удалить" extraClass={styles.delete_button} onClick={pop} disabled={deleteButtonDisabled} isLoader={deleteButtonLoader} />
           </div>
-          <Button text="Очистить" extraClass={styles.clear_button} onClick={clear} disabled={clearButtonDisabled ? true : false} />
+          <Button text="Очистить" extraClass={styles.clear_button} onClick={clear} disabled={clearButtonDisabled} />
         </form>
         <div className={styles.result}>
           {stackValue &&
