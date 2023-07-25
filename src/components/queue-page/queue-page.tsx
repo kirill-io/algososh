@@ -13,8 +13,12 @@ export const QueuePage: React.FC = () => {
   const [queueValue, setQueueValue] = useState<string[] | null>(null);
   const [headElementIndex, setHeadElementIndex] = useState<number | null>(null);
   const [tailElementIndex, setTailElementIndex] = useState<number | null>(null);
-  const [stateHeadElementIndex, setStateHeadElementIndex] = useState<number | null>(null);
-  const [stateTailElementIndex, setStateTailElementIndex] = useState<number | null>(null);
+  const [stateHeadElementIndex, setStateHeadElementIndex] = useState<
+    number | null
+  >(null);
+  const [stateTailElementIndex, setStateTailElementIndex] = useState<
+    number | null
+  >(null);
   const [addButtonDisabled, setAddButtonDisabled] = useState(true);
   const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
   const [clearButtonDisabled, setClearButtonDisabled] = useState(true);
@@ -29,7 +33,9 @@ export const QueuePage: React.FC = () => {
   }, []);
 
   const enqueue = () => {
-    queue.current.getTail > 0 ? setStateTailElementIndex(queue.current.getTail) : setStateTailElementIndex(0);
+    queue.current.getTail > 0
+      ? setStateTailElementIndex(queue.current.getTail)
+      : setStateTailElementIndex(0);
     setAddButtonLoader(true);
     setDeleteButtonDisabled(true);
     setClearButtonDisabled(true);
@@ -53,13 +59,13 @@ export const QueuePage: React.FC = () => {
       setAddButtonLoader(false);
       setDeleteButtonDisabled(false);
       setClearButtonDisabled(false);
-    }       
+    }
   };
 
   const dequeue = () => {
     setStateHeadElementIndex(queue.current.getHead);
     setDeleteButtonLoader(true);
-    setClearButtonDisabled(true);    
+    setClearButtonDisabled(true);
     if (headElementIndex === tailElementIndex) {
       setDeleteButtonDisabled(true);
     }
@@ -74,7 +80,7 @@ export const QueuePage: React.FC = () => {
       if (queue.current.getEndQueue) {
         setTailElementIndex(null);
       }
-    }, DELAY_MS_500);    
+    }, DELAY_MS_500);
   };
 
   const clear = () => {
@@ -89,7 +95,7 @@ export const QueuePage: React.FC = () => {
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
 
-    if (e.currentTarget.value && e.currentTarget.value.trim() !== '') {
+    if (e.currentTarget.value && e.currentTarget.value.trim() !== "") {
       setAddButtonDisabled(false);
     }
   };
@@ -99,16 +105,51 @@ export const QueuePage: React.FC = () => {
       <div className={styles.wrapper}>
         <form className={styles.form}>
           <div className={styles.container}>
-            <Input maxLength={4} isLimitText={true} extraClass={styles.input} onChange={onChangeInputHandler} useRef={inputRef} />
-            <Button text="Добавить" extraClass={styles.add_button} onClick={enqueue} disabled={addButtonDisabled} isLoader={addButtonLoader} />
-            <Button text="Удалить" extraClass={styles.delete_button} onClick={dequeue} disabled={deleteButtonDisabled} isLoader={deleteButtonLoader} />
+            <Input
+              maxLength={4}
+              isLimitText={true}
+              extraClass={styles.input}
+              onChange={onChangeInputHandler}
+              useRef={inputRef}
+            />
+            <Button
+              text="Добавить"
+              extraClass={styles.add_button}
+              onClick={enqueue}
+              disabled={addButtonDisabled}
+              isLoader={addButtonLoader}
+            />
+            <Button
+              text="Удалить"
+              extraClass={styles.delete_button}
+              onClick={dequeue}
+              disabled={deleteButtonDisabled}
+              isLoader={deleteButtonLoader}
+            />
           </div>
-          <Button text="Очистить" extraClass={styles.clear_button} onClick={clear} disabled={clearButtonDisabled} />
+          <Button
+            text="Очистить"
+            extraClass={styles.clear_button}
+            onClick={clear}
+            disabled={clearButtonDisabled}
+          />
         </form>
         <div className={styles.result}>
           {queueValue &&
-            queueValue.map((item, i) => <Circle letter={item} index={i} head={headElementIndex === i ? "head" : null} tail={tailElementIndex === i ? "tail" : null} state={stateHeadElementIndex === i || stateTailElementIndex === i ? ElementStates.Changing : ElementStates.Default}  key={i} />)
-          }
+            queueValue.map((item, i) => (
+              <Circle
+                letter={item}
+                index={i}
+                head={headElementIndex === i ? "head" : null}
+                tail={tailElementIndex === i ? "tail" : null}
+                state={
+                  stateHeadElementIndex === i || stateTailElementIndex === i
+                    ? ElementStates.Changing
+                    : ElementStates.Default
+                }
+                key={i}
+              />
+            ))}
         </div>
       </div>
     </SolutionLayout>

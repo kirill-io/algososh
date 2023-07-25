@@ -10,8 +10,8 @@ export const prepend = (value: string, linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: Position.Top,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   steps.push({
     index: null,
@@ -19,8 +19,8 @@ export const prepend = (value: string, linkedList: any) => {
     list: linkedList.prepend(value).toArray(),
     state: [ElementStates.Modified],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   steps.push({
     index: null,
@@ -28,8 +28,8 @@ export const prepend = (value: string, linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   return steps;
 };
@@ -43,17 +43,20 @@ export const append = (value: string, linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: Position.Top,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   steps.push({
     index: null,
     value: undefined,
     list: linkedList.append(value).toArray(),
-    state: Array(linkedList.toArray().length).fill(ElementStates.Modified, linkedList.toArray().length - 1),
+    state: Array(linkedList.toArray().length).fill(
+      ElementStates.Modified,
+      linkedList.toArray().length - 1,
+    ),
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   steps.push({
     index: null,
@@ -61,8 +64,8 @@ export const append = (value: string, linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   return steps;
 };
@@ -76,8 +79,8 @@ export const deleteHead = (linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: Position.Bottom,
-    hideValue: [true]
-  })
+    hideValue: [true],
+  });
 
   linkedList.deleteHead();
 
@@ -87,8 +90,8 @@ export const deleteHead = (linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   return steps;
 };
@@ -102,8 +105,11 @@ export const deleteTail = (linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: Position.Bottom,
-    hideValue: Array(linkedList.toArray().length).fill(true, linkedList.toArray().length - 1)
-  })
+    hideValue: Array(linkedList.toArray().length).fill(
+      true,
+      linkedList.toArray().length - 1,
+    ),
+  });
 
   linkedList.deleteTail();
 
@@ -113,8 +119,8 @@ export const deleteTail = (linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   return steps;
 };
@@ -129,7 +135,7 @@ export const addByIndex = (value: string, index: number, linkedList: any) => {
       list: linkedList.toArray(),
       state: Array(i).fill(ElementStates.Changing),
       direction: Position.Top,
-      hideValue: []
+      hideValue: [],
     });
   }
 
@@ -139,8 +145,8 @@ export const addByIndex = (value: string, index: number, linkedList: any) => {
     list: linkedList.addByIndex(value, index).toArray(),
     state: Array(index + 1).fill(ElementStates.Modified, index),
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   steps.push({
     index: null,
@@ -148,8 +154,8 @@ export const addByIndex = (value: string, index: number, linkedList: any) => {
     list: linkedList.toArray(),
     state: [],
     direction: null,
-    hideValue: []
-  })
+    hideValue: [],
+  });
 
   return steps;
 };
@@ -164,8 +170,8 @@ export const deleteByIndex = (index: number, linkedList: any) => {
       list: linkedList.toArray(),
       state: Array(i + 1).fill(ElementStates.Changing),
       direction: null,
-      hideValue: []
-    })
+      hideValue: [],
+    });
   }
 
   steps.push({
@@ -174,7 +180,7 @@ export const deleteByIndex = (index: number, linkedList: any) => {
     list: linkedList.toArray(),
     state: Array(index).fill(ElementStates.Changing),
     direction: Position.Bottom,
-    hideValue: Array(index + 1).fill(true, index)
+    hideValue: Array(index + 1).fill(true, index),
   });
 
   steps.push({
@@ -183,7 +189,7 @@ export const deleteByIndex = (index: number, linkedList: any) => {
     list: linkedList.deleteByIndex(index).toArray(),
     state: [],
     direction: null,
-    hideValue: []
+    hideValue: [],
   });
 
   return steps;

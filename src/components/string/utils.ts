@@ -1,16 +1,18 @@
 import { ElementStates } from "../../types/element-states";
-import { TReversingStringResult } from "./types"; 
+import { TReversingStringResult } from "./types";
 
-export const reversingString = (initialString: string): TReversingStringResult => {
-  const initialStringSymbols = initialString.split('');
+export const reversingString = (
+  initialString: string,
+): TReversingStringResult => {
+  const initialStringSymbols = initialString.split("");
   const stringLength = initialString.length;
   const initialState = Array(stringLength).fill(ElementStates.Default);
   const result: TReversingStringResult = {
     steps: [[...initialStringSymbols]],
-    state: [[...initialState]]
+    state: [[...initialState]],
   };
-  
-  const middle = Math.floor(initialString.length / 2);    
+
+  const middle = Math.floor(initialString.length / 2);
 
   if (stringLength === 1) {
     result.state[stringLength - 1][stringLength - 1] = ElementStates.Modified;
@@ -19,10 +21,11 @@ export const reversingString = (initialString: string): TReversingStringResult =
 
   for (let i = 0; i < middle; i++) {
     let tmp = initialStringSymbols[i];
-    initialStringSymbols[i] = initialStringSymbols[initialStringSymbols.length - 1 - i];
+    initialStringSymbols[i] =
+      initialStringSymbols[initialStringSymbols.length - 1 - i];
     initialStringSymbols[initialStringSymbols.length - 1 - i] = tmp;
     result.steps.push([...initialStringSymbols]);
-    
+
     if (i === 0) {
       result.state[i][i] = ElementStates.Changing;
       result.state[i][stringLength - 1] = ElementStates.Changing;
@@ -35,7 +38,7 @@ export const reversingString = (initialString: string): TReversingStringResult =
     }
   }
 
-  result.state.push([...Array(stringLength).fill(ElementStates.Modified)])
+  result.state.push([...Array(stringLength).fill(ElementStates.Modified)]);
 
   return result;
 };

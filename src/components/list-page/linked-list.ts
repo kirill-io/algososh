@@ -93,13 +93,13 @@ export class LinkedList<T> implements ILinkedList<T> {
       } else {
         this.head = null;
         this.tail = null;
-      }    
+      }
     }
   }
 
   addByIndex(value: T, index: number) {
     if (index === 0) {
-      this.prepend(value)
+      this.prepend(value);
     }
 
     const newNode = new LinkedListNode(value);
@@ -136,13 +136,13 @@ export class LinkedList<T> implements ILinkedList<T> {
           }
 
           deletedNote = currentNode.next;
-          currentNode.next = currentNode.next.next;          
+          currentNode.next = currentNode.next.next;
         } else {
           currentNode = currentNode.next;
         }
       }
     }
-    
+
     return this;
   }
 }

@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, ChangeEvent, MouseEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  MouseEvent,
+  FormEvent,
+} from "react";
 import { randomArrayNumber } from "../../utils/randomArray";
 import { selectionSort, bubbleSort } from "./utils";
 import styles from "./sorting-page.module.css";
@@ -11,7 +18,7 @@ import { ElementStates } from "../../types/element-states";
 import { TStep, SortSelection, SortDirection } from "./types";
 import { DELAY_MS_1000 } from "../../utils/constants";
 
-export const SortingPage: React.FC = () => {  
+export const SortingPage: React.FC = () => {
   const [randomArray, setRandomArray] = useState<number[] | null>(null);
   const [steps, setSteps] = useState<TStep[] | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -28,14 +35,17 @@ export const SortingPage: React.FC = () => {
   }, []);
 
   const startAlgorithm = (array: number[], sortDirection: string) => {
-    const steps = sortMethod === SortSelection.Selection ? selectionSort(array, sortDirection) : bubbleSort(array, sortDirection);
+    const steps =
+      sortMethod === SortSelection.Selection
+        ? selectionSort(array, sortDirection)
+        : bubbleSort(array, sortDirection);
     setSteps(steps);
     setCurrentStep(0);
 
     intervalRef.current = setInterval(() => {
       setCurrentStep((prevState) => {
         const nextState = prevState + 1;
-        
+
         if (nextState === steps.length - 1 && intervalRef.current) {
           setIncreaseButtonLoader(false);
           setDecreaseButtonLoader(false);
@@ -49,7 +59,12 @@ export const SortingPage: React.FC = () => {
     }, DELAY_MS_1000);
   };
 
-  const selectionElementState = (item: number, elementA: number | null, elementB: number | null, sortedElements: number[]) => {
+  const selectionElementState = (
+    item: number,
+    elementA: number | null,
+    elementB: number | null,
+    sortedElements: number[],
+  ) => {
     if (item === elementA || item === elementB) {
       return ElementStates.Changing;
     }
@@ -64,12 +79,18 @@ export const SortingPage: React.FC = () => {
   };
 
   const onChangeRadioInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    e.currentTarget.value === SortSelection.Selection ? setSortMethod(SortSelection.Selection) : setSortMethod(SortSelection.Bubble);
+    e.currentTarget.value === SortSelection.Selection
+      ? setSortMethod(SortSelection.Selection)
+      : setSortMethod(SortSelection.Bubble);
   };
 
   const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.value === SortDirection.Increase ? setIncreaseButtonLoader(true) : setDecreaseButtonLoader(true);
-    e.currentTarget.value === SortDirection.Increase ? setDecreaseButtonDisabled(true) : setIncreaseButtonDisabled(true);
+    e.currentTarget.value === SortDirection.Increase
+      ? setIncreaseButtonLoader(true)
+      : setDecreaseButtonLoader(true);
+    e.currentTarget.value === SortDirection.Increase
+      ? setDecreaseButtonDisabled(true)
+      : setIncreaseButtonDisabled(true);
     if (randomArray) {
       startAlgorithm(randomArray, e.currentTarget.value);
     }
@@ -78,7 +99,7 @@ export const SortingPage: React.FC = () => {
   const onSubmitFormHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSteps(null);
-    setRandomArray(randomArrayNumber(3, 17, 0, 100));    
+    setRandomArray(randomArrayNumber(3, 17, 0, 100));
   };
 
   return (
@@ -87,23 +108,67 @@ export const SortingPage: React.FC = () => {
         <form className={styles.form} onSubmit={onSubmitFormHandler}>
           <div className={styles.container}>
             <div className={styles.container_radio}>
-              <RadioInput label="Выбор" name="radio" value={SortSelection.Selection} extraClass={styles.radio} onChange={onChangeRadioInputHandler} defaultChecked />
-              <RadioInput label="Пузырёк" name="radio" value={SortSelection.Bubble} extraClass={styles.radio} onChange={onChangeRadioInputHandler} />
+              <RadioInput
+                label="Выбор"
+                name="radio"
+                value={SortSelection.Selection}
+                extraClass={styles.radio}
+                onChange={onChangeRadioInputHandler}
+                defaultChecked
+              />
+              <RadioInput
+                label="Пузырёк"
+                name="radio"
+                value={SortSelection.Bubble}
+                extraClass={styles.radio}
+                onChange={onChangeRadioInputHandler}
+              />
             </div>
             <div className={styles.container_button}>
-              <Button text="По возрастанию" value={SortDirection.Increase} sorting={Direction.Ascending} extraClass={styles.button} onClick={onClickButtonHandler}  isLoader={increaseButtonLoader} disabled={increaseButtonDisabled} />
-              <Button text="По убыванию" value={SortDirection.Decrease} sorting={Direction.Descending} extraClass={styles.button} onClick={onClickButtonHandler}  isLoader={decreaseButtonLoader} disabled={decreaseButtonDisabled} />
+              <Button
+                text="По возрастанию"
+                value={SortDirection.Increase}
+                sorting={Direction.Ascending}
+                extraClass={styles.button}
+                onClick={onClickButtonHandler}
+                isLoader={increaseButtonLoader}
+                disabled={increaseButtonDisabled}
+              />
+              <Button
+                text="По убыванию"
+                value={SortDirection.Decrease}
+                sorting={Direction.Descending}
+                extraClass={styles.button}
+                onClick={onClickButtonHandler}
+                isLoader={decreaseButtonLoader}
+                disabled={decreaseButtonDisabled}
+              />
             </div>
           </div>
-          <Button text="Новый массив" type="submit" extraClass={styles.button} disabled={increaseButtonDisabled || decreaseButtonDisabled} />
+          <Button
+            text="Новый массив"
+            type="submit"
+            extraClass={styles.button}
+            disabled={increaseButtonDisabled || decreaseButtonDisabled}
+          />
         </form>
         <div className={styles.column}>
-          {randomArray && !steps &&
-            randomArray.map((item, i) => <Column index={item} key={i} />)
-          }
+          {randomArray &&
+            !steps &&
+            randomArray.map((item, i) => <Column index={item} key={i} />)}
           {steps &&
-            steps[currentStep].currentArray.map((item: number, i: number) => <Column index={item} key={i} state={selectionElementState(i, steps[currentStep].elementA, steps[currentStep].elementB, steps[currentStep].sortedElements)} />)
-          }
+            steps[currentStep].currentArray.map((item: number, i: number) => (
+              <Column
+                index={item}
+                key={i}
+                state={selectionElementState(
+                  i,
+                  steps[currentStep].elementA,
+                  steps[currentStep].elementB,
+                  steps[currentStep].sortedElements,
+                )}
+              />
+            ))}
         </div>
       </div>
     </SolutionLayout>

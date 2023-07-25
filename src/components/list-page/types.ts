@@ -19,7 +19,7 @@ export interface ILinkedListNode<T> {
   next: ILinkedListNode<T> | null;
 
   get getValue(): T;
-  set setValue(value: T);  
+  set setValue(value: T);
 }
 
 export interface ILinkedList<T> {
@@ -42,4 +42,4 @@ export type TSteps = {
   state: ElementStates[];
   direction: Position | null;
   hideValue: boolean[];
-}
+};

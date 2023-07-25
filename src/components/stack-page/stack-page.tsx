@@ -12,7 +12,9 @@ export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
   const [stackValue, setStackValue] = useState<string[] | null>(null);
   const [topElementIndex, setTopElementIndex] = useState<number | null>(null);
-  const [stateElementIndex, setStateElementIndex] = useState<number | null>(null);
+  const [stateElementIndex, setStateElementIndex] = useState<number | null>(
+    null,
+  );
   const [addButtonDisabled, setAddButtonDisabled] = useState(true);
   const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
   const [clearButtonDisabled, setClearButtonDisabled] = useState(true);
@@ -53,7 +55,9 @@ export const StackPage: React.FC = () => {
 
     setTimeout(() => {
       stack.current.pop();
-      !stack.current.getStack.length ? setStackValue(null) : setStackValue([...stack.current.getStack]);
+      !stack.current.getStack.length
+        ? setStackValue(null)
+        : setStackValue([...stack.current.getStack]);
       setTopElementIndex(stack.current.getSize - 1);
       setDeleteButtonLoader(false);
 
@@ -73,7 +77,7 @@ export const StackPage: React.FC = () => {
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
 
-    if (e.currentTarget.value && e.currentTarget.value.trim() !== '') {
+    if (e.currentTarget.value && e.currentTarget.value.trim() !== "") {
       setAddButtonDisabled(false);
     }
   };
@@ -83,16 +87,50 @@ export const StackPage: React.FC = () => {
       <div className={styles.wrapper}>
         <form className={styles.form}>
           <div className={styles.container}>
-            <Input maxLength={4} isLimitText={true} extraClass={styles.input} onChange={onChangeInputHandler} useRef={inputRef} />
-            <Button text="Добавить" extraClass={styles.add_button} onClick={push} disabled={addButtonDisabled} isLoader={addButtonLoader} />
-            <Button text="Удалить" extraClass={styles.delete_button} onClick={pop} disabled={deleteButtonDisabled} isLoader={deleteButtonLoader} />
+            <Input
+              maxLength={4}
+              isLimitText={true}
+              extraClass={styles.input}
+              onChange={onChangeInputHandler}
+              useRef={inputRef}
+            />
+            <Button
+              text="Добавить"
+              extraClass={styles.add_button}
+              onClick={push}
+              disabled={addButtonDisabled}
+              isLoader={addButtonLoader}
+            />
+            <Button
+              text="Удалить"
+              extraClass={styles.delete_button}
+              onClick={pop}
+              disabled={deleteButtonDisabled}
+              isLoader={deleteButtonLoader}
+            />
           </div>
-          <Button text="Очистить" extraClass={styles.clear_button} onClick={clear} disabled={clearButtonDisabled} />
+          <Button
+            text="Очистить"
+            extraClass={styles.clear_button}
+            onClick={clear}
+            disabled={clearButtonDisabled}
+          />
         </form>
         <div className={styles.result}>
           {stackValue &&
-            stackValue.map((item, i) => <Circle letter={item} index={i} key={i} head={topElementIndex === i ? "top" : null} state={stateElementIndex === i ? ElementStates.Changing : ElementStates.Default} />)
-          }
+            stackValue.map((item, i) => (
+              <Circle
+                letter={item}
+                index={i}
+                key={i}
+                head={topElementIndex === i ? "top" : null}
+                state={
+                  stateElementIndex === i
+                    ? ElementStates.Changing
+                    : ElementStates.Default
+                }
+              />
+            ))}
         </div>
       </div>
     </SolutionLayout>

@@ -33,20 +33,23 @@ export const FibonacciPage: React.FC = () => {
             setInputValue(null);
             inputRef.current.value = "";
             clearInterval(intervalRef.current);
-          }         
+          }
         }
 
         return nextState;
-      })
+      });
     }, DELAY_MS_500);
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.currentTarget.value) >= 1 && Number(e.currentTarget.value) <= 19) {
+    if (
+      Number(e.currentTarget.value) >= 1 &&
+      Number(e.currentTarget.value) <= 19
+    ) {
       setInputValue(e.currentTarget.value);
     } else {
-      setInputValue(null)
-    }   
+      setInputValue(null);
+    }
   };
 
   const onSubmitFormHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -59,14 +62,32 @@ export const FibonacciPage: React.FC = () => {
       <div className={styles.wrapper}>
         <div className={styles.form_container}>
           <form className={styles.form} onSubmit={onSubmitFormHandler}>
-            <Input placeholder="Введите значение" maxLength={19} isLimitText={true} type="number" max={19} min={1} onChange={onChangeInputHandler} useRef={inputRef} />
-            <Button text="Рассчитать" type="submit" isLoader={buttonLoader} extraClass={styles.button} disabled={inputValue ? false : true} />
+            <Input
+              placeholder="Введите значение"
+              maxLength={19}
+              isLimitText={true}
+              type="number"
+              max={19}
+              min={1}
+              onChange={onChangeInputHandler}
+              useRef={inputRef}
+            />
+            <Button
+              text="Рассчитать"
+              type="submit"
+              isLoader={buttonLoader}
+              extraClass={styles.button}
+              disabled={inputValue ? false : true}
+            />
           </form>
         </div>
         <div className={styles.circles_container}>
           {steps &&
-            steps.slice(0, currentStep + 1).map((item, i) => <Circle letter={String(item)} key={i} tail={String(i)} />)
-          }
+            steps
+              .slice(0, currentStep + 1)
+              .map((item, i) => (
+                <Circle letter={String(item)} key={i} tail={String(i)} />
+              ))}
         </div>
       </div>
     </SolutionLayout>
