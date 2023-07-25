@@ -234,7 +234,7 @@ export const ListPage: React.FC = () => {
               }} disabled={deleteTailButtonDisabled || buttonDisabled} isLoader={isLoaderButton === Operation.DeleteTail ? true : false} />
           </div>
           <div className={styles.row}>
-            <Input placeholder="Введите индекс" type="number" min={0} extraClass={styles.input} onChange={onChangeInputIndexHandler} useRef={inputIndexRef} />
+            <Input placeholder="Введите индекс" type="number" maxLength={linkedList.current.toArray().length - 1} min={0} max={linkedList.current.toArray().length - 1} extraClass={styles.input} onChange={onChangeInputIndexHandler} useRef={inputIndexRef} />
             <Button text="Добавить по индексу" extraClass={styles.index_button} onClick={() => {
                 setOperation(Operation.AddByIndex);
                 setIsLoaderButton(Operation.AddByIndex);

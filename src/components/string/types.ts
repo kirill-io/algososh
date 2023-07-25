@@ -1,4 +1,4 @@
-import { ElementStates } from "./element-states";
+import { ElementStates } from "../../types/element-states";
 
 export type TReversingStringResult = {
   steps: string[][];

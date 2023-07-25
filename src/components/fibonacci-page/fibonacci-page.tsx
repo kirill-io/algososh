@@ -1,4 +1,5 @@
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
+import { getFibonacciNumbers } from "./utils";
 import styles from "./fibonacci-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
@@ -13,21 +14,12 @@ export const FibonacciPage: React.FC = () => {
   const [buttonLoader, setButtonLoader] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timeout>();
-
-  const fibIterative = (n: number): number[] => {
-    const fib = [1, 1];
-
-    for (let i = 2; i <= n; i++) {
-      fib.push(fib[i - 1] + fib[i - 2]);
-    }
-
-    return fib;
-  };
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const startAlgorithm = () => {
     setButtonLoader(true);
 
-    const steps = fibIterative(Number(inputValue));
+    const steps = getFibonacciNumbers(Number(inputValue));
     setSteps(steps);
     setCurrentStep(0);
 
@@ -35,9 +27,13 @@ export const FibonacciPage: React.FC = () => {
       setCurrentStep((prevState) => {
         const nextState = prevState + 1;
 
-        if (nextState === steps.length - 1 && intervalRef.current) {
-          setButtonLoader(false);
-          clearInterval(intervalRef.current);
+        if (nextState === steps.length) {
+          if (intervalRef.current && inputRef.current) {
+            setButtonLoader(false);
+            setInputValue(null);
+            inputRef.current.value = "";
+            clearInterval(intervalRef.current);
+          }         
         }
 
         return nextState;
@@ -46,7 +42,11 @@ export const FibonacciPage: React.FC = () => {
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.currentTarget.value);
+    if (Number(e.currentTarget.value) >= 1 && Number(e.currentTarget.value) <= 19) {
+      setInputValue(e.currentTarget.value);
+    } else {
+      setInputValue(null)
+    }   
   };
 
   const onSubmitFormHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -59,8 +59,8 @@ export const FibonacciPage: React.FC = () => {
       <div className={styles.wrapper}>
         <div className={styles.form_container}>
           <form className={styles.form} onSubmit={onSubmitFormHandler}>
-            <Input placeholder="Введите значение" maxLength={19} isLimitText={true} type="number" max={19} min={1} onChange={onChangeInputHandler} />
-            <Button text="Рассчитать" type="submit" isLoader={buttonLoader} extraClass={styles.button} />
+            <Input placeholder="Введите значение" maxLength={19} isLimitText={true} type="number" max={19} min={1} onChange={onChangeInputHandler} useRef={inputRef} />
+            <Button text="Рассчитать" type="submit" isLoader={buttonLoader} extraClass={styles.button} disabled={inputValue ? false : true} />
           </form>
         </div>
         <div className={styles.circles_container}>
