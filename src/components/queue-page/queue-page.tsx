@@ -6,7 +6,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import { DELAY_MS_500 } from "../../utils/constants";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const QueuePage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -27,9 +27,16 @@ export const QueuePage: React.FC = () => {
 
   const queue = useRef(new Queue<string>(Array(7).fill(undefined)));
   const inputRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     setQueueValue(queue.current.getQueue);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    }
   }, []);
 
   const enqueue = () => {
@@ -40,7 +47,7 @@ export const QueuePage: React.FC = () => {
     setDeleteButtonDisabled(true);
     setClearButtonDisabled(true);
     if (queue.current.getTail !== queue.current.getQueue.length) {
-      setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         if (inputValue && inputRef.current) {
           setStateTailElementIndex(null);
           setInputValue(null);
@@ -54,7 +61,7 @@ export const QueuePage: React.FC = () => {
           setDeleteButtonDisabled(false);
           setClearButtonDisabled(false);
         }
-      }, DELAY_MS_500);
+      }, SHORT_DELAY_IN_MS);
     } else {
       setAddButtonLoader(false);
       setDeleteButtonDisabled(false);
@@ -69,7 +76,7 @@ export const QueuePage: React.FC = () => {
     if (headElementIndex === tailElementIndex) {
       setDeleteButtonDisabled(true);
     }
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       setStateHeadElementIndex(null);
       queue.current.dequeue();
       setQueueValue([...queue.current.getQueue]);
@@ -80,7 +87,7 @@ export const QueuePage: React.FC = () => {
       if (queue.current.getEndQueue) {
         setTailElementIndex(null);
       }
-    }, DELAY_MS_500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   const clear = () => {

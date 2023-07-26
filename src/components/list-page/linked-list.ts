@@ -125,7 +125,6 @@ export class LinkedList<T> implements ILinkedList<T> {
       return this;
     }
 
-    let deletedNote: LinkedListNode<T> | null = null;
     let currentNode = this.head;
 
     if (currentNode) {
@@ -135,7 +134,6 @@ export class LinkedList<T> implements ILinkedList<T> {
             this.tail = currentNode;
           }
 
-          deletedNote = currentNode.next;
           currentNode.next = currentNode.next.next;
         } else {
           currentNode = currentNode.next;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { LinkedList } from "./linked-list";
 import {
   prepend,
@@ -15,7 +15,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
-import { DELAY_MS_500 } from "../../utils/constants";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { TSteps, Position, Operation, ILinkedListNode } from "./types";
 
@@ -23,9 +23,6 @@ export const ListPage: React.FC = () => {
   const linkedList = useRef(
     new LinkedList<string>(randomArrayString(3, 6, 0, 100)),
   );
-  const intervalRef = useRef<NodeJS.Timeout>();
-  const inputValueRef = useRef<HTMLInputElement>(null);
-  const inputIndexRef = useRef<HTMLInputElement>(null);
 
   const [inputValue, setInputValue] = useState<string | null>(null);
   const [inputIndex, setInputIndex] = useState<string | null>(null);
@@ -54,6 +51,10 @@ export const ListPage: React.FC = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [isLoaderButton, setIsLoaderButton] = useState<Operation | null>(null);
 
+  const intervalRef = useRef<NodeJS.Timeout>();
+  const inputValueRef = useRef<HTMLInputElement>(null);
+  const inputIndexRef = useRef<HTMLInputElement>(null);
+
   const startAlgorithm = () => {
     if (steps) {
       setButtonDisabled(true);
@@ -69,9 +70,17 @@ export const ListPage: React.FC = () => {
 
           return nextState;
         });
-      }, DELAY_MS_500);
+      }, SHORT_DELAY_IN_MS);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (inputIndex && inputValue) {
@@ -170,7 +179,7 @@ export const ListPage: React.FC = () => {
     }
 
     setOperation(null);
-  }, [operation]);
+  }, [operation, inputIndex, inputValue]);
 
   useEffect(() => {
     if (linkedList.current.toArray().length > 0) {
@@ -185,7 +194,7 @@ export const ListPage: React.FC = () => {
     if (steps.length > 1) {
       startAlgorithm();
     }
-  }, [steps]);
+  }, [steps]); // eslint-disable-line
 
   const onChangeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.value.trim() !== "") {

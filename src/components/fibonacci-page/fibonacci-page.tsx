@@ -1,11 +1,11 @@
-import { useState, useRef, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent, FormEvent } from "react";
 import { getFibonacciNumbers } from "./utils";
 import styles from "./fibonacci-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { DELAY_MS_500 } from "../../utils/constants";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -15,6 +15,14 @@ export const FibonacciPage: React.FC = () => {
 
   const intervalRef = useRef<NodeJS.Timeout>();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+  }, []);
 
   const startAlgorithm = () => {
     setButtonLoader(true);
@@ -38,7 +46,7 @@ export const FibonacciPage: React.FC = () => {
 
         return nextState;
       });
-    }, DELAY_MS_500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {

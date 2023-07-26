@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent, FormEvent } from "react";
 import { reversingString } from "./utils";
 import styles from "./string.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -6,7 +6,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { TReversingStringResult } from "./types";
-import { DELAY_MS_1000 } from "../../utils/constants";
+import { DELAY_IN_MS } from "../../constants/delays"; 
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -16,6 +16,14 @@ export const StringComponent: React.FC = () => {
 
   const intervalRef = useRef<NodeJS.Timeout>();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+  }, []);
 
   const startAlgorithm = () => {
     if (inputValue) {
@@ -45,14 +53,16 @@ export const StringComponent: React.FC = () => {
 
             return nextState;
           });
-        }, DELAY_MS_1000);
+        }, DELAY_IN_MS);
       }
     }
   };
 
+  
+
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.value.trim() !== "") {
-      setInputValue(e.currentTarget.value);
+      setInputValue(e.currentTarget.value.trim());
     }
   };
 

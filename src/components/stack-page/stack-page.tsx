@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { Stack } from "./stack";
 import styles from "./stack-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -6,7 +6,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import { DELAY_MS_500 } from "../../utils/constants";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays"; 
 
 export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -23,6 +23,15 @@ export const StackPage: React.FC = () => {
 
   const stack = useRef(new Stack<string>());
   const inputRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    }
+  }, []);
 
   const push = () => {
     if (inputValue && inputRef.current) {
@@ -35,12 +44,13 @@ export const StackPage: React.FC = () => {
       setAddButtonLoader(true);
       setDeleteButtonDisabled(true);
       setClearButtonDisabled(true);
-      setTimeout(() => {
+
+      timeoutRef.current = setTimeout(() => {
         setStateElementIndex(stack.current.getSize);
         setAddButtonLoader(false);
         setDeleteButtonDisabled(false);
         setClearButtonDisabled(false);
-      }, DELAY_MS_500);
+      }, SHORT_DELAY_IN_MS);
     }
   };
 
@@ -53,7 +63,7 @@ export const StackPage: React.FC = () => {
       setDeleteButtonDisabled(true);
     }
 
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       stack.current.pop();
       !stack.current.getStack.length
         ? setStackValue(null)
@@ -64,7 +74,7 @@ export const StackPage: React.FC = () => {
       if (stack.current.getSize !== 0) {
         setClearButtonDisabled(false);
       }
-    }, DELAY_MS_500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   const clear = () => {
