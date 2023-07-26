@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent } from "react";
+import { useEffect, useState, useRef, ChangeEvent, FormEvent } from "react";
 import { LinkedList } from "./linked-list";
 import {
   prepend,
@@ -38,17 +38,6 @@ export const ListPage: React.FC = () => {
   ]);
   const [currentStep, setCurrentStep] = useState(0);
   const [operation, setOperation] = useState<Operation | null>(null);
-  const [addHeadButtonDisabled, setAddHeadButtonDisabled] = useState(true);
-  const [addTailButtonDisabled, setAddTailButtonDisabled] = useState(true);
-  const [deleteHeadButtonDisabled, setDeleteHeadButtonDisabled] =
-    useState(true);
-  const [deleteTailButtonDisabled, setDeleteTailButtonDisabled] =
-    useState(true);
-  const [addByIndexButtonDisabled, setAddByIndexButtonDisabled] =
-    useState(true);
-  const [deleteByIndexButtonDisabled, setDeleteByIndexButtonDisabled] =
-    useState(true);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [isLoaderButton, setIsLoaderButton] = useState<Operation | null>(null);
 
   const intervalRef = useRef<NodeJS.Timeout>();
@@ -57,7 +46,6 @@ export const ListPage: React.FC = () => {
 
   const startAlgorithm = () => {
     if (steps) {
-      setButtonDisabled(true);
       intervalRef.current = setInterval(() => {
         setCurrentStep((prevState) => {
           const nextState = prevState + 1;
@@ -65,7 +53,6 @@ export const ListPage: React.FC = () => {
           if (nextState === steps.length - 1 && intervalRef.current) {
             clearInterval(intervalRef.current);
             setIsLoaderButton(null);
-            setButtonDisabled(false);
           }
 
           return nextState;
@@ -79,16 +66,8 @@ export const ListPage: React.FC = () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-    }
+    };
   }, []);
-
-  useEffect(() => {
-    if (inputIndex && inputValue) {
-      setAddByIndexButtonDisabled(false);
-    } else {
-      setAddByIndexButtonDisabled(true);
-    }
-  }, [inputValue, inputIndex]);
 
   useEffect(() => {
     switch (operation) {
@@ -100,9 +79,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddHeadButtonDisabled(true);
-          setAddTailButtonDisabled(true);
-          setAddByIndexButtonDisabled(true);
         }
         break;
 
@@ -114,9 +90,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddHeadButtonDisabled(true);
-          setAddTailButtonDisabled(true);
-          setAddByIndexButtonDisabled(true);
         }
         break;
 
@@ -128,8 +101,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddHeadButtonDisabled(true);
-          setAddTailButtonDisabled(true);
         }
 
         break;
@@ -142,8 +113,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddHeadButtonDisabled(true);
-          setAddTailButtonDisabled(true);
         }
         break;
 
@@ -157,10 +126,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddHeadButtonDisabled(true);
-          setAddTailButtonDisabled(true);
-          setAddByIndexButtonDisabled(true);
-          setDeleteByIndexButtonDisabled(true);
         }
         break;
 
@@ -172,8 +137,6 @@ export const ListPage: React.FC = () => {
           inputIndexRef.current.value = "";
           setInputValue(null);
           setInputIndex(null);
-          setAddByIndexButtonDisabled(true);
-          setDeleteByIndexButtonDisabled(true);
         }
         break;
     }
@@ -182,34 +145,15 @@ export const ListPage: React.FC = () => {
   }, [operation, inputIndex, inputValue]);
 
   useEffect(() => {
-    if (linkedList.current.toArray().length > 0) {
-      setDeleteHeadButtonDisabled(false);
-      setDeleteTailButtonDisabled(false);
-    } else {
-      setDeleteHeadButtonDisabled(true);
-      setDeleteTailButtonDisabled(true);
-      setDeleteByIndexButtonDisabled(true);
-    }
-
     if (steps.length > 1) {
       startAlgorithm();
     }
   }, [steps]); // eslint-disable-line
 
   const onChangeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.trim() !== "") {
-      setInputValue(e.currentTarget.value.trim());
-    } else {
-      setInputValue(null);
-    }
-
-    if (e.currentTarget.value && e.currentTarget.value.trim() !== "") {
-      setAddHeadButtonDisabled(false);
-      setAddTailButtonDisabled(false);
-    } else {
-      setAddHeadButtonDisabled(true);
-      setAddTailButtonDisabled(true);
-    }
+    e.currentTarget.value.trim() !== ""
+      ? setInputValue(e.currentTarget.value)
+      : setInputValue(null);
   };
 
   const onChangeInputIndexHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -221,24 +165,15 @@ export const ListPage: React.FC = () => {
     } else {
       setInputIndex(null);
     }
-
-    if (
-      e.currentTarget.value &&
-      0 <= Number(e.currentTarget.value) &&
-      Number(e.currentTarget.value) < linkedList.current.toArray().length
-    ) {
-      setDeleteByIndexButtonDisabled(false);
-      setAddByIndexButtonDisabled(false);
-    } else {
-      setAddByIndexButtonDisabled(true);
-      setDeleteByIndexButtonDisabled(true);
-    }
   };
 
   return (
     <SolutionLayout title="Связный список">
       <div className={styles.wrapper}>
-        <form className={styles.form}>
+        <form
+          className={styles.form}
+          onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
+        >
           <div className={styles.row}>
             <Input
               maxLength={4}
@@ -255,7 +190,7 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.AddHead);
                 setIsLoaderButton(Operation.AddHead);
               }}
-              disabled={addHeadButtonDisabled || buttonDisabled}
+              disabled={inputValue === null || isLoaderButton !== null}
               isLoader={isLoaderButton === Operation.AddHead ? true : false}
             />
             <Button
@@ -265,7 +200,7 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.AddTail);
                 setIsLoaderButton(Operation.AddTail);
               }}
-              disabled={addTailButtonDisabled || buttonDisabled}
+              disabled={inputValue === null || isLoaderButton !== null}
               isLoader={isLoaderButton === Operation.AddTail ? true : false}
             />
             <Button
@@ -275,7 +210,10 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.DeleteHead);
                 setIsLoaderButton(Operation.DeleteHead);
               }}
-              disabled={deleteHeadButtonDisabled || buttonDisabled}
+              disabled={
+                isLoaderButton !== null ||
+                linkedList.current.toArray().length === 0
+              }
               isLoader={isLoaderButton === Operation.DeleteHead ? true : false}
             />
             <Button
@@ -285,7 +223,10 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.DeleteTail);
                 setIsLoaderButton(Operation.DeleteTail);
               }}
-              disabled={deleteTailButtonDisabled || buttonDisabled}
+              disabled={
+                isLoaderButton !== null ||
+                linkedList.current.toArray().length === 0
+              }
               isLoader={isLoaderButton === Operation.DeleteTail ? true : false}
             />
           </div>
@@ -307,7 +248,11 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.AddByIndex);
                 setIsLoaderButton(Operation.AddByIndex);
               }}
-              disabled={addByIndexButtonDisabled || buttonDisabled}
+              disabled={
+                inputValue === null ||
+                inputIndex === null ||
+                isLoaderButton !== null
+              }
               isLoader={isLoaderButton === Operation.AddByIndex ? true : false}
             />
             <Button
@@ -317,7 +262,7 @@ export const ListPage: React.FC = () => {
                 setOperation(Operation.DeleteByIndex);
                 setIsLoaderButton(Operation.DeleteByIndex);
               }}
-              disabled={deleteByIndexButtonDisabled || buttonDisabled}
+              disabled={inputIndex === null || isLoaderButton !== null}
               isLoader={
                 isLoaderButton === Operation.DeleteByIndex ? true : false
               }

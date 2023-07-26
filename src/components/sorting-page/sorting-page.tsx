@@ -16,15 +16,17 @@ import { Column } from "../ui/column/column";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import { TStep, SortSelection, SortDirection } from "./types";
-import { DELAY_IN_MS } from "../../constants/delays"; 
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
   const [randomArray, setRandomArray] = useState<number[] | null>(null);
   const [steps, setSteps] = useState<TStep[] | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [sortMethod, setSortMethod] = useState(SortSelection.Selection);
-  const [increaseButtonLoader, setIncreaseButtonLoader] = useState(false);
-  const [decreaseButtonLoader, setDecreaseButtonLoader] = useState(false);
+  const [buttonLoader, setButtonLoader] = useState({
+    increase: false,
+    decrease: false,
+  });
 
   const intervalRef = useRef<NodeJS.Timeout>();
 
@@ -35,7 +37,7 @@ export const SortingPage: React.FC = () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-    }
+    };
   }, []);
 
   const startAlgorithm = (array: number[], sortDirection: string) => {
@@ -51,8 +53,10 @@ export const SortingPage: React.FC = () => {
         const nextState = prevState + 1;
 
         if (nextState === steps.length - 1 && intervalRef.current) {
-          setIncreaseButtonLoader(false);
-          setDecreaseButtonLoader(false);
+          setButtonLoader({
+            increase: false,
+            decrease: false,
+          });
           clearInterval(intervalRef.current);
         }
 
@@ -88,8 +92,8 @@ export const SortingPage: React.FC = () => {
 
   const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.value === SortDirection.Increase
-      ? setIncreaseButtonLoader(true)
-      : setDecreaseButtonLoader(true);
+      ? setButtonLoader({ ...buttonLoader, increase: true })
+      : setButtonLoader({ ...buttonLoader, decrease: true });
     if (randomArray) {
       startAlgorithm(randomArray, e.currentTarget.value);
     }
@@ -130,8 +134,8 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Ascending}
                 extraClass={styles.button}
                 onClick={onClickButtonHandler}
-                isLoader={increaseButtonLoader}
-                disabled={decreaseButtonLoader}
+                isLoader={buttonLoader.increase}
+                disabled={buttonLoader.decrease}
               />
               <Button
                 text="По убыванию"
@@ -139,8 +143,8 @@ export const SortingPage: React.FC = () => {
                 sorting={Direction.Descending}
                 extraClass={styles.button}
                 onClick={onClickButtonHandler}
-                isLoader={decreaseButtonLoader}
-                disabled={increaseButtonLoader}
+                isLoader={buttonLoader.decrease}
+                disabled={buttonLoader.increase}
               />
             </div>
           </div>
@@ -148,7 +152,7 @@ export const SortingPage: React.FC = () => {
             text="Новый массив"
             type="submit"
             extraClass={styles.button}
-            disabled={increaseButtonLoader || decreaseButtonLoader}
+            disabled={buttonLoader.increase || buttonLoader.decrease}
           />
         </form>
         <div className={styles.column}>

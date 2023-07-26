@@ -6,7 +6,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { TReversingStringResult } from "./types";
-import { DELAY_IN_MS } from "../../constants/delays"; 
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
@@ -22,7 +22,7 @@ export const StringComponent: React.FC = () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-    }
+    };
   }, []);
 
   const startAlgorithm = () => {
@@ -58,12 +58,10 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  
-
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.trim() !== "") {
-      setInputValue(e.currentTarget.value.trim());
-    }
+    e.currentTarget.value.trim() !== ""
+      ? setInputValue(e.currentTarget.value.trim())
+      : setInputValue(null);
   };
 
   const onSubmitFormHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -87,7 +85,7 @@ export const StringComponent: React.FC = () => {
               type="submit"
               isLoader={buttonLoader}
               extraClass={styles.button}
-              disabled={inputValue ? false : true}
+              disabled={inputValue === null}
             />
           </form>
         </div>

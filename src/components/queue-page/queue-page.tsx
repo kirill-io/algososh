@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useState, useEffect, useRef, ChangeEvent, FormEvent } from "react";
 import { Queue } from "./queue";
 import styles from "./queue-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -19,11 +19,10 @@ export const QueuePage: React.FC = () => {
   const [stateTailElementIndex, setStateTailElementIndex] = useState<
     number | null
   >(null);
-  const [addButtonDisabled, setAddButtonDisabled] = useState(true);
-  const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
-  const [clearButtonDisabled, setClearButtonDisabled] = useState(true);
-  const [addButtonLoader, setAddButtonLoader] = useState(false);
-  const [deleteButtonLoader, setDeleteButtonLoader] = useState(false);
+  const [buttonLoader, setButtonLoader] = useState({
+    add: false,
+    delete: false,
+  });
 
   const queue = useRef(new Queue<string>(Array(7).fill(undefined)));
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,16 +35,15 @@ export const QueuePage: React.FC = () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-    }
+    };
   }, []);
 
   const enqueue = () => {
     queue.current.getTail > 0
       ? setStateTailElementIndex(queue.current.getTail)
       : setStateTailElementIndex(0);
-    setAddButtonLoader(true);
-    setDeleteButtonDisabled(true);
-    setClearButtonDisabled(true);
+    setButtonLoader({ ...buttonLoader, add: true });
+
     if (queue.current.getTail !== queue.current.getQueue.length) {
       timeoutRef.current = setTimeout(() => {
         if (inputValue && inputRef.current) {
@@ -56,34 +54,26 @@ export const QueuePage: React.FC = () => {
           setQueueValue([...queue.current.getQueue]);
           setHeadElementIndex(queue.current.getHead);
           setTailElementIndex(queue.current.getTail - 1);
-          setAddButtonDisabled(true);
-          setAddButtonLoader(false);
-          setDeleteButtonDisabled(false);
-          setClearButtonDisabled(false);
+          setButtonLoader({ ...buttonLoader, add: false });
         }
       }, SHORT_DELAY_IN_MS);
     } else {
-      setAddButtonLoader(false);
-      setDeleteButtonDisabled(false);
-      setClearButtonDisabled(false);
+      setButtonLoader({ ...buttonLoader, add: false });
     }
   };
 
   const dequeue = () => {
     setStateHeadElementIndex(queue.current.getHead);
-    setDeleteButtonLoader(true);
-    setClearButtonDisabled(true);
-    if (headElementIndex === tailElementIndex) {
-      setDeleteButtonDisabled(true);
-    }
+    setButtonLoader({ ...buttonLoader, delete: true });
+
     timeoutRef.current = setTimeout(() => {
       setStateHeadElementIndex(null);
       queue.current.dequeue();
       setQueueValue([...queue.current.getQueue]);
       setHeadElementIndex(queue.current.getHead);
       setTailElementIndex(queue.current.getTail - 1);
-      setClearButtonDisabled(false);
-      setDeleteButtonLoader(false);
+      setButtonLoader({ ...buttonLoader, delete: false });
+
       if (queue.current.getEndQueue) {
         setTailElementIndex(null);
       }
@@ -95,22 +85,21 @@ export const QueuePage: React.FC = () => {
     setQueueValue([...queue.current.getQueue]);
     setHeadElementIndex(null);
     setTailElementIndex(null);
-    setDeleteButtonDisabled(true);
-    setClearButtonDisabled(true);
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.currentTarget.value);
-
-    if (e.currentTarget.value && e.currentTarget.value.trim() !== "") {
-      setAddButtonDisabled(false);
-    }
+    e.currentTarget.value.trim() !== ""
+      ? setInputValue(e.currentTarget.value)
+      : setInputValue(null);
   };
 
   return (
     <SolutionLayout title="Очередь">
       <div className={styles.wrapper}>
-        <form className={styles.form}>
+        <form
+          className={styles.form}
+          onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
+        >
           <div className={styles.container}>
             <Input
               maxLength={4}
@@ -123,22 +112,30 @@ export const QueuePage: React.FC = () => {
               text="Добавить"
               extraClass={styles.add_button}
               onClick={enqueue}
-              disabled={addButtonDisabled}
-              isLoader={addButtonLoader}
+              disabled={inputValue === null || buttonLoader.delete}
+              isLoader={buttonLoader.add}
             />
             <Button
               text="Удалить"
               extraClass={styles.delete_button}
               onClick={dequeue}
-              disabled={deleteButtonDisabled}
-              isLoader={deleteButtonLoader}
+              disabled={
+                headElementIndex === null ||
+                tailElementIndex === null ||
+                buttonLoader.add
+              }
+              isLoader={buttonLoader.delete}
             />
           </div>
           <Button
             text="Очистить"
             extraClass={styles.clear_button}
             onClick={clear}
-            disabled={clearButtonDisabled}
+            disabled={
+              headElementIndex === null ||
+              buttonLoader.add ||
+              buttonLoader.delete
+            }
           />
         </form>
         <div className={styles.result}>

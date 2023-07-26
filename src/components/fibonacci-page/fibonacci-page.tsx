@@ -21,7 +21,7 @@ export const FibonacciPage: React.FC = () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
-    }
+    };
   }, []);
 
   const startAlgorithm = () => {
@@ -85,7 +85,7 @@ export const FibonacciPage: React.FC = () => {
               type="submit"
               isLoader={buttonLoader}
               extraClass={styles.button}
-              disabled={inputValue ? false : true}
+              disabled={inputValue === null}
             />
           </form>
         </div>

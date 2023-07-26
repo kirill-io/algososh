@@ -6,20 +6,19 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays"; 
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string | null>(null);
-  const [stackValue, setStackValue] = useState<string[] | null>(null);
+  const [stackValue, setStackValue] = useState<string[]>([]);
   const [topElementIndex, setTopElementIndex] = useState<number | null>(null);
   const [stateElementIndex, setStateElementIndex] = useState<number | null>(
     null,
   );
-  const [addButtonDisabled, setAddButtonDisabled] = useState(true);
-  const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
-  const [clearButtonDisabled, setClearButtonDisabled] = useState(true);
-  const [addButtonLoader, setAddButtonLoader] = useState(false);
-  const [deleteButtonLoader, setDeleteButtonLoader] = useState(false);
+  const [buttonLoader, setButtonLoader] = useState({
+    add: false,
+    delete: false,
+  });
 
   const stack = useRef(new Stack<string>());
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,66 +29,50 @@ export const StackPage: React.FC = () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-    }
+    };
   }, []);
 
   const push = () => {
     if (inputValue && inputRef.current) {
       stack.current.push(inputValue);
       inputRef.current.value = "";
-      setAddButtonDisabled(true);
+      setInputValue(null);
       setStackValue(stack.current.getStack);
       setTopElementIndex(stack.current.getSize - 1);
       setStateElementIndex(stack.current.getSize - 1);
-      setAddButtonLoader(true);
-      setDeleteButtonDisabled(true);
-      setClearButtonDisabled(true);
+      setButtonLoader({ ...buttonLoader, add: true });
 
       timeoutRef.current = setTimeout(() => {
         setStateElementIndex(stack.current.getSize);
-        setAddButtonLoader(false);
-        setDeleteButtonDisabled(false);
-        setClearButtonDisabled(false);
+        setButtonLoader({ ...buttonLoader, add: false });
       }, SHORT_DELAY_IN_MS);
     }
   };
 
   const pop = () => {
     setStateElementIndex(stack.current.getSize - 1);
-    setDeleteButtonLoader(true);
-    setClearButtonDisabled(true);
-
-    if (stack.current.getSize - 1 === 0) {
-      setDeleteButtonDisabled(true);
-    }
+    setButtonLoader({ ...buttonLoader, delete: true });
 
     timeoutRef.current = setTimeout(() => {
       stack.current.pop();
       !stack.current.getStack.length
-        ? setStackValue(null)
+        ? setStackValue([])
         : setStackValue([...stack.current.getStack]);
       setTopElementIndex(stack.current.getSize - 1);
-      setDeleteButtonLoader(false);
-
-      if (stack.current.getSize !== 0) {
-        setClearButtonDisabled(false);
-      }
+      setButtonLoader({ ...buttonLoader, delete: false });
     }, SHORT_DELAY_IN_MS);
   };
 
   const clear = () => {
     stack.current.clear();
-    setStackValue(null);
-    setDeleteButtonDisabled(true);
-    setClearButtonDisabled(true);
+    setStackValue([]);
+    setInputValue(null);
   };
 
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.currentTarget.value);
-
-    if (e.currentTarget.value && e.currentTarget.value.trim() !== "") {
-      setAddButtonDisabled(false);
-    }
+    e.currentTarget.value.trim() !== ""
+      ? setInputValue(e.currentTarget.value)
+      : setInputValue(null);
   };
 
   return (
@@ -107,23 +90,26 @@ export const StackPage: React.FC = () => {
             <Button
               text="Добавить"
               extraClass={styles.add_button}
+              type="submit"
               onClick={push}
-              disabled={addButtonDisabled}
-              isLoader={addButtonLoader}
+              disabled={inputValue === null || buttonLoader.delete}
+              isLoader={buttonLoader.add}
             />
             <Button
               text="Удалить"
               extraClass={styles.delete_button}
               onClick={pop}
-              disabled={deleteButtonDisabled}
-              isLoader={deleteButtonLoader}
+              disabled={stackValue.length === 0 || buttonLoader.add}
+              isLoader={buttonLoader.delete}
             />
           </div>
           <Button
             text="Очистить"
             extraClass={styles.clear_button}
             onClick={clear}
-            disabled={clearButtonDisabled}
+            disabled={
+              stackValue.length === 0 || buttonLoader.add || buttonLoader.delete
+            }
           />
         </form>
         <div className={styles.result}>
