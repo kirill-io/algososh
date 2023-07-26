@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 120px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.row {
+  column-gap: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  width: 204px;
+}
+
+.value_button {
+  min-width: 175px;
+}
+
+.index_button {
+  min-width: 362px;
+}
+
+.result {
+  column-gap: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.item {
+  align-items: center;
+  column-gap: 16px;
+  display: flex;
+}
