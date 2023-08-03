@@ -14,6 +14,10 @@ export const reversingString = (
 
   const middle = Math.floor(initialString.length / 2);
 
+  if (stringLength === 0) {
+    return result;
+  }
+
   if (stringLength === 1) {
     result.state[stringLength - 1][stringLength - 1] = ElementStates.Modified;
     return result;
