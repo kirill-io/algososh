@@ -19,8 +19,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "cypress:open": "npx cypress open"
+    "test:jest": "react-scripts test",
+    "test:cypress": "start-server-and-test start http://localhost:3000 cypress:open",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +51,7 @@
     "eslint-plugin-cypress": "^2.13.3",
     "jest": "^27.5.1",
     "prettier": "3.0.0",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "start-server-and-test": "^2.0.0"
   }
 }
