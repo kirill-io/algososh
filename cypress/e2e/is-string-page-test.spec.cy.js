@@ -28,15 +28,19 @@ describe('Тестирование страницы разворота стро�
     cy.get('@circles').eq(2).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('s');
     cy.get('@circles').eq(3).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('t');
 
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(0).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('e');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(2).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('s');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(3).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+    cy.wait(DELAY_IN_MS); // eslint-disable-line
+    cy.get('@circles').eq(0).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+    cy.get('@circles').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('e');
+    cy.get('@circles').eq(2).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('s');
+    cy.get('@circles').eq(3).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
 
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(0).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(1).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('s');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(2).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('e');
-    cy.get('@circles', { timeout: DELAY_IN_MS }).eq(3).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+    cy.wait(DELAY_IN_MS); // eslint-disable-line
+    cy.get('@circles').eq(0).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
+    cy.get('@circles').eq(1).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('s');
+    cy.get('@circles').eq(2).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('e');
+    cy.get('@circles').eq(3).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('t');
     
+    cy.get('@input').should('have.value', '');
+    cy.get('@button').should('be.disabled');
   });
 });
