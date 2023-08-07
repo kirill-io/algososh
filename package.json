@@ -20,8 +20,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test:jest": "react-scripts test",
-    "test:cypress": "start-server-and-test start http://localhost:3000 cypress:open",
-    "cypress:open": "cypress open"
+    "test:cypress-open": "start-server-and-test start http://localhost:3000 cypress:open",
+    "test:cypress-run": "start-server-and-test start http://localhost:3000 cypress:run",
+    "cypress:open": "cypress open --e2e --browser chrome",
+    "cypress:run": "cypress run --browser chrome"
   },
   "eslintConfig": {
     "extends": [
