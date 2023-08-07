@@ -102,6 +102,7 @@ export const QueuePage: React.FC = () => {
         >
           <div className={styles.container}>
             <Input
+            type="text"
               maxLength={4}
               isLimitText={true}
               extraClass={styles.input}
@@ -111,6 +112,7 @@ export const QueuePage: React.FC = () => {
             <Button
               text="Добавить"
               extraClass={styles.add_button}
+              type="submit"
               onClick={enqueue}
               disabled={inputValue === null || buttonLoader.delete}
               isLoader={buttonLoader.add}
@@ -125,6 +127,7 @@ export const QueuePage: React.FC = () => {
                 buttonLoader.add
               }
               isLoader={buttonLoader.delete}
+              data-cy="deleteButton"
             />
           </div>
           <Button
@@ -136,9 +139,10 @@ export const QueuePage: React.FC = () => {
               buttonLoader.add ||
               buttonLoader.delete
             }
+            data-cy="clearButton"
           />
         </form>
-        <div className={styles.result}>
+        <div className={styles.result} data-cy="queue">
           {queueValue &&
             queueValue.map((item, i) => (
               <Circle
