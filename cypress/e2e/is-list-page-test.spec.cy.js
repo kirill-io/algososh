@@ -15,7 +15,6 @@ describe("Тестирование страницы связанный спис�
       cy.get('[data-cy="deleteToIndexButton"]').as("deleteToIndexButton");
     });
 
-    cy.get('[data-cy="list"]').as("list");
     cy.get('[class^="circle_circle"]').as("circles");
   });
 
@@ -179,7 +178,7 @@ describe("Тестирование страницы связанный спис�
       .should("not.be.empty");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get("@circles")
-      .eq(2)
+      .last()
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .should("not.be.empty");
 
