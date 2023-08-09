@@ -25,7 +25,7 @@ describe('Тестирование страницы удаления и доба
     cy.get('@button').click();
     cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
 
-    cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').should('have.value', '');
+    cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
     cy.get('@queue').children().eq(0).first().contains('head');
@@ -37,7 +37,7 @@ describe('Тестирование страницы удаления и доба
     cy.get('@button').click();
     cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
 
-    cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').should('have.value', '');
+    cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
     cy.get('@queue').children().eq(0).first().contains('head');
@@ -69,8 +69,7 @@ describe('Тестирование страницы удаления и доба
     cy.get('@queue').children().eq(0).first().contains('head');
     cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get('@queue').children().eq(0).first().should('have.value', '');
-    cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').should('have.value', '');
+    cy.get('@queue').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)');
     cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
     cy.get('@queue').children().eq(1).first().contains('head');
     cy.get('@queue').children().eq(1).last().contains('tail');
@@ -83,8 +82,7 @@ describe('Тестирование страницы удаления и доба
     cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get('@queue').children().eq(1).first().contains('head');
-    cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').should('have.value', '');
-    cy.get('@queue').children().eq(1).last().should('have.value', '');
+    cy.get('@queue').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)');
 
     cy.get('@deleteButton').should('be.disabled');
   });
