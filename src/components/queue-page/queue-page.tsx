@@ -102,7 +102,7 @@ export const QueuePage: React.FC = () => {
         >
           <div className={styles.container}>
             <Input
-            type="text"
+              type="text"
               maxLength={4}
               isLimitText={true}
               extraClass={styles.input}
