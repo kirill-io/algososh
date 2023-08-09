@@ -110,5 +110,7 @@ describe('Тестирование страницы удаления и доба
     cy.get('[class^="circle_circle"]').should('have.length', 7).each((item) => {
       expect(item).contain('');
     });
+
+    cy.get('@clearButton').should('be.disabled');
   });
 });

@@ -25,10 +25,22 @@ describe('Тестирование страницы удаления и доба
     cy.get('@button').click();
     cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
 
-    cy.get('[class^="circle_circle"]').as('circles');
-    cy.get('@circles').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
+    cy.get('@stack').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
+    cy.get('@stack').children().eq(0).first().contains('top');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get('@circles').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
+    cy.get('@stack').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
+
+    cy.get('@input').should('have.value', '');
+    cy.get('@button').should('be.disabled');
+    cy.get('@input').type('test');
+    cy.get('@button').should('not.be.disabled');
+    cy.get('@button').click();
+    cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
+
+    cy.get('@stack').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
+    cy.get('@stack').children().eq(1).first().contains('top');
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+    cy.get('@stack').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
 
     cy.get('@input').should('have.value', '');
     cy.get('@button').should('be.disabled');
@@ -37,16 +49,40 @@ describe('Тестирование страницы удаления и доба
   it('Проверка корректности удаления элемента из стека', () => {
     cy.get('@deleteButton').should('be.disabled');
     cy.get('@input').type('test');
+    cy.get('@button').should('not.be.disabled');
     cy.get('@button').click();
+    cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
+  
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+
+    cy.get('@deleteButton').should('not.be.disabled');
+    cy.get('@button').should('be.disabled');
+    cy.get('@input').type('test');
+    cy.get('@button').should('not.be.disabled');
+    cy.get('@button').click();
+    cy.get('@button').children('img').should('have.attr', 'alt', 'Загрузка.');
+
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+
     cy.get('@deleteButton').should('not.be.disabled');
     cy.get('@deleteButton').click();
     cy.get('@deleteButton').children('img').should('have.attr', 'alt', 'Загрузка.');
 
-    cy.get('[class^="circle_circle"]').as('circles');
-    cy.get('@circles').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
+    cy.get('@stack').children().eq(1).first().contains('top');
+    cy.get('@stack').children().eq(1).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+   
+    cy.get('@stack').children().eq(0).first().contains('top');
+    cy.get('@stack').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('test');
+
+    cy.get('@deleteButton').should('not.be.disabled');
+    cy.get('@deleteButton').click();
+    cy.get('@deleteButton').children('img').should('have.attr', 'alt', 'Загрузка.');
+
+    cy.get('@stack').children().eq(0).first().contains('top');
+    cy.get('@stack').children().eq(0).children('[class^="circle_circle"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('test');
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
 
-    cy.get('@stack').should('have.value', '');
     cy.get('@deleteButton').should('be.disabled');
   });
 
@@ -55,8 +91,20 @@ describe('Тестирование страницы удаления и доба
     cy.get('@input').type('test');
     cy.get('@button').click();
     cy.get('@clearButton').should('not.be.disabled');
+
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+
+    cy.get('@clearButton').should('not.be.disabled');
+    cy.get('@input').type('test');
+    cy.get('@button').click();
+    cy.get('@clearButton').should('not.be.disabled');
+
+    cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
+
+    cy.get('@clearButton').should('not.be.disabled');
     cy.get('@clearButton').click();
-    cy.get('@stack').should('have.value', '');
+
+    cy.get('@stack').children().should('have.length', 0);
     cy.get('@clearButton').should('be.disabled');
   });
 });
