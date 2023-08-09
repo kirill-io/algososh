@@ -182,6 +182,7 @@ export const ListPage: React.FC = () => {
               extraClass={styles.input}
               onChange={onChangeInputValueHandler}
               useRef={inputValueRef}
+              data-cy="inputValue"
             />
             <Button
               text="Добавить в head"
@@ -192,6 +193,7 @@ export const ListPage: React.FC = () => {
               }}
               disabled={inputValue === null || isLoaderButton !== null}
               isLoader={isLoaderButton === Operation.AddHead ? true : false}
+              data-cy="addHeadButton"
             />
             <Button
               text="Добавить в tail"
@@ -202,6 +204,7 @@ export const ListPage: React.FC = () => {
               }}
               disabled={inputValue === null || isLoaderButton !== null}
               isLoader={isLoaderButton === Operation.AddTail ? true : false}
+              data-cy="addTailButton"
             />
             <Button
               text="Удалить из head"
@@ -215,6 +218,7 @@ export const ListPage: React.FC = () => {
                 linkedList.current.toArray().length === 0
               }
               isLoader={isLoaderButton === Operation.DeleteHead ? true : false}
+              data-cy="deleteHeadButton"
             />
             <Button
               text="Удалить из tail"
@@ -228,6 +232,7 @@ export const ListPage: React.FC = () => {
                 linkedList.current.toArray().length === 0
               }
               isLoader={isLoaderButton === Operation.DeleteTail ? true : false}
+              data-cy="deleteTailButton"
             />
           </div>
           <div className={styles.row}>
@@ -240,6 +245,7 @@ export const ListPage: React.FC = () => {
               extraClass={styles.input}
               onChange={onChangeInputIndexHandler}
               useRef={inputIndexRef}
+              data-cy="inputIndex"
             />
             <Button
               text="Добавить по индексу"
@@ -254,6 +260,7 @@ export const ListPage: React.FC = () => {
                 isLoaderButton !== null
               }
               isLoader={isLoaderButton === Operation.AddByIndex ? true : false}
+              data-cy="addToIndexButton"
             />
             <Button
               text="Удалить по индексу"
@@ -266,10 +273,11 @@ export const ListPage: React.FC = () => {
               isLoader={
                 isLoaderButton === Operation.DeleteByIndex ? true : false
               }
+              data-cy="deleteToIndexButton"
             />
           </div>
         </form>
-        <div className={styles.result}>
+        <div className={styles.result} data-cy="list">
           {steps &&
             steps[currentStep].list.map(
               (
