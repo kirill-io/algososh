@@ -1,3 +1,4 @@
+import { CIRCLES } from "../constants";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Тестирование страницы генерации последовательности Фибоначчи:", () => {
@@ -22,30 +23,29 @@ describe("Тестирование страницы генерации посл�
     cy.get("@button").click();
     cy.get("@button").children("img").should("have.attr", "alt", "Загрузка.");
 
-    cy.get('[class^="circle_circle"]').as("circles");
-    cy.get("@circles").eq(0).should("have.text", "1");
+    cy.get(CIRCLES).eq(0).should("have.text", "1");
 
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").eq(0).contains("1");
-    cy.get("@circles").eq(1).contains("1");
+    cy.get(CIRCLES).eq(0).contains("1");
+    cy.get(CIRCLES).eq(1).contains("1");
 
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").eq(0).contains("1");
-    cy.get("@circles").eq(1).contains("1");
-    cy.get("@circles").eq(2).contains("2");
+    cy.get(CIRCLES).eq(0).contains("1");
+    cy.get(CIRCLES).eq(1).contains("1");
+    cy.get(CIRCLES).eq(2).contains("2");
 
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").eq(0).contains("1");
-    cy.get("@circles").eq(1).contains("1");
-    cy.get("@circles").eq(2).contains("2");
-    cy.get("@circles").eq(3).contains("3");
+    cy.get(CIRCLES).eq(0).contains("1");
+    cy.get(CIRCLES).eq(1).contains("1");
+    cy.get(CIRCLES).eq(2).contains("2");
+    cy.get(CIRCLES).eq(3).contains("3");
 
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").eq(0).contains("1");
-    cy.get("@circles").eq(1).contains("1");
-    cy.get("@circles").eq(2).contains("2");
-    cy.get("@circles").eq(3).contains("3");
-    cy.get("@circles").eq(4).contains("5");
+    cy.get(CIRCLES).eq(0).contains("1");
+    cy.get(CIRCLES).eq(1).contains("1");
+    cy.get(CIRCLES).eq(2).contains("2");
+    cy.get(CIRCLES).eq(3).contains("3");
+    cy.get(CIRCLES).eq(4).contains("5");
 
     cy.get("@input").should("have.value", "");
     cy.get("@button").should("be.disabled");

@@ -1,3 +1,4 @@
+import { CIRCLES } from "../constants";
 import { DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Тестирование страницы разворота строки:", () => {
@@ -22,56 +23,55 @@ describe("Тестирование страницы разворота стро�
     cy.get("@button").click();
     cy.get("@button").children("img").should("have.attr", "alt", "Загрузка.");
 
-    cy.get('[class^="circle_circle"]').as("circles");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(0)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("t");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("e");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("s");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(3)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("t");
 
     cy.wait(DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(0)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("t");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("e");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("s");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(3)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("t");
 
     cy.wait(DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(0)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("t");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("s");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("e");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(3)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("t");

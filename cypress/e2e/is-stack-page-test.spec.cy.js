@@ -1,3 +1,4 @@
+import { CIRCLES } from "../constants";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Тестирование страницы удаления и добавления данных в стек:", () => {
@@ -28,7 +29,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.get("@stack").children().eq(0).first().contains("top");
@@ -36,7 +37,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
 
@@ -50,7 +51,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.get("@stack").children().eq(1).first().contains("top");
@@ -58,7 +59,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
 
@@ -94,7 +95,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
@@ -103,7 +104,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
 
@@ -117,7 +118,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@stack")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line

@@ -1,3 +1,4 @@
+import { CIRCLES } from "../constants";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Тестирование страницы связанный список:", () => {
@@ -15,7 +16,6 @@ describe("Тестирование страницы связанный спис�
       cy.get('[data-cy="deleteToIndexButton"]').as("deleteToIndexButton");
     });
 
-    cy.get('[class^="circle_circle"]').as("circles");
     cy.get('[data-cy="list"]').as("list");
   });
 
@@ -39,15 +39,15 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(127, 224, 81)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(0, 50, 255)");
 
@@ -63,15 +63,15 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(127, 224, 81)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(0, 50, 255)");
 
@@ -88,24 +88,24 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .filter(':contains("test")')
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(0)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(127, 224, 81)")
       .contains("test");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
@@ -122,12 +122,12 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles").first().should("have.text", "");
-    cy.get("@circles")
+    cy.get(CIRCLES).first().should("have.text", "");
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").first().should("not.be.empty");
+    cy.get(CIRCLES).first().should("not.be.empty");
 
     cy.get("@deleteHeadButton").should("not.be.disabled");
   });
@@ -139,12 +139,12 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .last()
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
-    cy.get("@circles").eq(-2).should("have.text", "");
+    cy.get(CIRCLES).eq(-2).should("have.text", "");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles").last().should("not.be.empty");
+    cy.get(CIRCLES).last().should("not.be.empty");
 
     cy.get("@deleteTailButton").should("not.be.disabled");
   });
@@ -157,28 +157,28 @@ describe("Тестирование страницы связанный спис�
       .children("img")
       .should("have.attr", "alt", "Загрузка.");
 
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(0)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(1)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(2)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .should("have.text", "");
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .eq(3)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .should("not.be.empty");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
-    cy.get("@circles")
+    cy.get(CIRCLES)
       .last()
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .should("not.be.empty");

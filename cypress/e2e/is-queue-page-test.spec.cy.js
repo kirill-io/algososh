@@ -1,3 +1,4 @@
+import { CIRCLES } from "../constants";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Тестирование страницы удаления и добавления данных в очередь:", () => {
@@ -28,13 +29,13 @@ describe("Тестирование страницы удаления и доба
     cy.get("@queue")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get("@queue")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
     cy.get("@queue").children().eq(0).first().contains("head");
@@ -49,13 +50,13 @@ describe("Тестирование страницы удаления и доба
     cy.get("@queue")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get("@queue")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
     cy.get("@queue").children().eq(0).first().contains("head");
@@ -90,19 +91,19 @@ describe("Тестирование страницы удаления и доба
     cy.get("@queue")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
     cy.get("@queue")
       .children()
       .eq(0)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)");
     cy.get("@queue")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)")
       .contains("test");
     cy.get("@queue").children().eq(1).first().contains("head");
@@ -118,7 +119,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@queue")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(210, 82, 225)")
       .contains("test");
     cy.wait(SHORT_DELAY_IN_MS); // eslint-disable-line
@@ -126,7 +127,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@queue")
       .children()
       .eq(1)
-      .children('[class^="circle_circle"]')
+      .children(CIRCLES)
       .should("have.css", "border", "4px solid rgb(0, 50, 255)");
 
     cy.get("@deleteButton").should("be.disabled");
@@ -150,7 +151,7 @@ describe("Тестирование страницы удаления и доба
     cy.get("@clearButton").should("not.be.disabled");
     cy.get("@clearButton").click();
 
-    cy.get('[class^="circle_circle"]')
+    cy.get(CIRCLES)
       .should("have.length", 7)
       .each((item) => {
         expect(item).contain("");
