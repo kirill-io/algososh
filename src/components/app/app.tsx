@@ -12,7 +12,7 @@ import "./app.css";
 
 function App() {
   return (
-    <div className="app">
+    <div className="app" data-testid="appComponent">
       <BrowserRouter>
         <Switch>
           <Route path="/" exact>

@@ -1,15 +1,44 @@
-import { SortDirection } from "./types";
+import { Direction } from "../../types/direction";
 
 export const selectionSort = (array: number[], sortDirection: string) => {
   const steps = [];
   const sortedElements = [];
+
+  if (array.length === 0) {
+    steps.push({
+      currentArray: [],
+      elementA: null,
+      elementB: null,
+      sortedElements: [],
+    });
+
+    return steps;
+  }
+
+  if (array.length === 1) {
+    steps.push({
+      currentArray: [...array],
+      elementA: null,
+      elementB: null,
+      sortedElements: [],
+    });
+
+    steps.push({
+      currentArray: [...array],
+      elementA: null,
+      elementB: null,
+      sortedElements: [0, 0],
+    });
+
+    return steps;
+  }
 
   for (let i = 0; i < array.length - 1; i++) {
     let index = i;
 
     for (let j = i + 1; j < array.length; j++) {
       if (
-        sortDirection === SortDirection.Increase
+        sortDirection === Direction.Ascending
           ? array[j] < array[index]
           : array[j] > array[index]
       ) {
@@ -47,6 +76,35 @@ export const bubbleSort = (array: number[], sortDirection: string) => {
   const steps = [];
   const sortedElements = [];
 
+  if (array.length === 0) {
+    steps.push({
+      currentArray: [],
+      elementA: null,
+      elementB: null,
+      sortedElements: [],
+    });
+
+    return steps;
+  }
+
+  if (array.length === 1) {
+    steps.push({
+      currentArray: [...array],
+      elementA: null,
+      elementB: null,
+      sortedElements: [],
+    });
+
+    steps.push({
+      currentArray: [...array],
+      elementA: null,
+      elementB: null,
+      sortedElements: [0, 0],
+    });
+
+    return steps;
+  }
+
   for (let i = 0; i < array.length; i++) {
     if (i > 0) {
       sortedElements.push(array.length - i);
@@ -54,7 +112,7 @@ export const bubbleSort = (array: number[], sortDirection: string) => {
 
     for (let j = 0; j < array.length - i - 1; j++) {
       if (
-        sortDirection === SortDirection.Increase
+        sortDirection === Direction.Ascending
           ? array[j] > array[j + 1]
           : array[j] < array[j + 1]
       ) {

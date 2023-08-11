@@ -15,7 +15,7 @@ import { Button } from "../ui/button/button";
 import { Column } from "../ui/column/column";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
-import { TStep, SortSelection, SortDirection } from "./types";
+import { TStep, SortSelection } from "./types";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
@@ -91,7 +91,7 @@ export const SortingPage: React.FC = () => {
   };
 
   const onClickButtonHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.value === SortDirection.Increase
+    e.currentTarget.value === Direction.Ascending
       ? setButtonLoader({ ...buttonLoader, increase: true })
       : setButtonLoader({ ...buttonLoader, decrease: true });
     if (randomArray) {
@@ -130,7 +130,7 @@ export const SortingPage: React.FC = () => {
             <div className={styles.container_button}>
               <Button
                 text="По возрастанию"
-                value={SortDirection.Increase}
+                value={Direction.Ascending}
                 sorting={Direction.Ascending}
                 extraClass={styles.button}
                 onClick={onClickButtonHandler}
@@ -139,7 +139,7 @@ export const SortingPage: React.FC = () => {
               />
               <Button
                 text="По убыванию"
-                value={SortDirection.Decrease}
+                value={Direction.Descending}
                 sorting={Direction.Descending}
                 extraClass={styles.button}
                 onClick={onClickButtonHandler}

@@ -81,6 +81,7 @@ export const StackPage: React.FC = () => {
         <form className={styles.form}>
           <div className={styles.container}>
             <Input
+              type="text"
               maxLength={4}
               isLimitText={true}
               extraClass={styles.input}
@@ -101,6 +102,7 @@ export const StackPage: React.FC = () => {
               onClick={pop}
               disabled={stackValue.length === 0 || buttonLoader.add}
               isLoader={buttonLoader.delete}
+              data-cy="deleteButton"
             />
           </div>
           <Button
@@ -110,9 +112,10 @@ export const StackPage: React.FC = () => {
             disabled={
               stackValue.length === 0 || buttonLoader.add || buttonLoader.delete
             }
+            data-cy="clearButton"
           />
         </form>
-        <div className={styles.result}>
+        <div className={styles.result} data-cy="stack">
           {stackValue &&
             stackValue.map((item, i) => (
               <Circle
