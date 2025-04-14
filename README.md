@@ -48,7 +48,7 @@
 1. Клонировать репозиторий:
 
    ```bash
-   git clone https://github.com/your-username/algososh.git
+   git clone https://github.com/kirill-io/algososh.git
    ```
 
 2. Перейдите в директорию проекта:
